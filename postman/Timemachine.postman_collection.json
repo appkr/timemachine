@@ -1,0 +1,86 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Timemachine",
+		"_postman_id": "225eceab-05f2-0fb0-d98b-a2a224c0cfe6",
+		"description": "Laravel/Lumen server time setter. Manipulate application server's time arbitrarily(past/future) for a given minutes.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET timemachine",
+			"request": {
+				"url": "localhost:8000/timemachine",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"add_days\": 5,\n\t\"sub_days\": null,\n\t\"add_minutes\": null,\n\t\"sub_minutes\": null,\n\t\"ttl\": 5\n}"
+				},
+				"description": "Get time diff from current server time if `target_server_time` parameter is given. Or print current server time if nothing is given.  \n\n```http\nGET /timemachine\nAccept: application/json\nContent-Type: application/json\n```\n\nfield|type|required|description\n---|---|---|---\n`target_server_time`|`date(Y-m-d H:i:s)`|no|e.g. 2017-05-11 10:10:10\n\n```http\n{\n  \"current_server_time\": \"2017-06-02T10:54:20+0900\",\n  \"target_server_time\": \"2017-05-11T10:10:10+0900\",\n  \"add_days\": null,\n  \"add_minutes\": null,\n  \"sub_days\": 22,\n  \"sub_minutes\": 44\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT timemachine",
+			"request": {
+				"url": "localhost:8000/timemachine",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"add_minutes\": 5,\n\t\"ttl\": 5\n}"
+				},
+				"description": "Manipulate server's time for the given period.\n\n```http\nPUT /timemachine\nAccept: application/json\nContent-Type: application/json\n\n{\n    \"add_days\": null,\n    \"sub_days\": 22,\n    \"add_minutes\": null,\n    \"sub_minutes\": 44,\n    \"ttl\": 5\n}\n```\n\nfield|type|required|description\n---|---|---|---\n`add_days`|int|no|Number of days to add to current time\n`sub_days`|int|no|Number of days to subtract from current time\n`add_minutes`|int|no|Number of minutes to add to current time\n`sub_minutes`|int|no|Number of minutes to subtract from current time\n`ttl`|int|no(default:5, max:60)|Number of minutes for settings alive\n\n```json\n{\n  \"current_server_time\": \"2017-06-02T10:54:20+0900\",\n  \"message\": \"Success. The settings will be effective from next request on for 5 minutes.\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE timemachine",
+			"request": {
+				"url": "localhost:8000/timemachine",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Remove time setting and restore back to the machine time.\n\n```http\nDELETE /timemachine\nAccept: application/json\nContent-Type: application/json\n```\n\n```json\n{\n  \"current_server_time\": \"2017-06-02T10:54:20+0900\",\n  \"message\": \"Success. Settings removed.\"\n}\n```"
+			},
+			"response": []
+		}
+	]
+}
