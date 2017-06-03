@@ -1,6 +1,6 @@
 <?php
 
-namespace Appkr\Timemachine;
+namespace Appkr\Timemachine\Laravel;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,7 +15,7 @@ class GetTimeDiffRequest extends FormRequest
     public function rules()
     {
         return [
-            'target_time' => 'date_format:Y-m-d H:i:s',
+            'target_server_time' => 'date_format:Y-m-d H:i:s',
         ];
     }
 

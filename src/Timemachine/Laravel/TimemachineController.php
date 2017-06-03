@@ -1,6 +1,6 @@
 <?php
 
-namespace Appkr\Timemachine;
+namespace Appkr\Timemachine\Laravel;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;

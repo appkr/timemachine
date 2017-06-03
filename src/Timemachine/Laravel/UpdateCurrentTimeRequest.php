@@ -1,7 +1,8 @@
 <?php
 
-namespace Appkr\Timemachine;
+namespace Appkr\Timemachine\Laravel;
 
+use Appkr\Timemachine\TimemachineSettings;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCurrentTimeRequest extends FormRequest

@@ -14,10 +14,10 @@ class TimemachineTest extends TestCase
 
     public function createApplication()
     {
+        /** @var \Illuminate\Foundation\Application $app */
         $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         $app->register(\Appkr\Timemachine\TimemachineServiceProvider::class);
-        $app['config']['timemachine.allowed_env'] = ['testing'];
 
         return $app;
     }
@@ -34,9 +34,7 @@ class TimemachineTest extends TestCase
 
     public function test_get_time_diff_api_responds_future_target_server_time()
     {
-        $now = Carbon::now();
-        $target = (clone $now)->addMinutes(5);
-        $futureTimeString = $target->toDateTimeString();
+        $futureTimeString = Carbon::now()->addMinutes(5)->toDateTimeString();
 
         $response = $this->get("timemachine?target_server_time={$futureTimeString}")
             ->assertStatus(200)
@@ -50,9 +48,7 @@ class TimemachineTest extends TestCase
 
     public function test_get_time_diff_api_responds_past_target_server_time()
     {
-        $now = Carbon::now();
-        $target = (clone $now)->subMinutes(5);
-        $pastTimeString = $target->toDateTimeString();
+        $pastTimeString = Carbon::now()->subMinutes(5)->toDateTimeString();
 
         $response = $this->get("timemachine?target_server_time={$pastTimeString}")
             ->assertStatus(200)
@@ -68,7 +64,6 @@ class TimemachineTest extends TestCase
     {
         $this->markTestIncomplete('TODO: Find how to test');
         $futureTimeString = Carbon::now()->addMinutes(5)->toIso8601String();
-        $this->mockCache(5);
 
         $response = $this->get('timemachine')
             ->assertStatus(200)
@@ -77,11 +72,11 @@ class TimemachineTest extends TestCase
         $this->assertTrue($response['current_server_time'] === $futureTimeString);
     }
 
-    private function mockCache($addMinutes = 0, $subMinutes = 0)
+    /** @setUp */
+    public function mockCache()
     {
         $timemachineSettings = new TimemachineSettings;
-        $timemachineSettings->addMinutes = $addMinutes;
-        $timemachineSettings->subMinutes = $subMinutes;
+        $timemachineSettings->addMinutes = 5;
 
         $m = Mockery::mock(\Illuminate\Contracts\Cache\Repository::class);
 

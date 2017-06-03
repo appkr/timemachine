@@ -1,12 +1,12 @@
 <?php
 
-namespace Appkr\Timemachine;
+namespace Appkr\Timemachine\Lumen;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class TimemachineControllerForLumen extends Controller
+class TimemachineController extends Controller
 {
     const DEFAULT_TIMEMACHINE_TTL = 5;
     const TIMEMACHINE_SETTINGS_CACHE_KEY = 'timemachine.settings';
@@ -48,7 +48,7 @@ class TimemachineControllerForLumen extends Controller
 
         return response()->json([
             'current_server_time' => Carbon::now()->toIso8601String(),
-            'message' => "Success. The settings will be effective next request on for {$timemachineSettingsTtl} minutes.",
+            'message' => "Success. The settings will be effective from next request on for {$timemachineSettingsTtl} minutes.",
         ]);
     }
 
@@ -59,8 +59,8 @@ class TimemachineControllerForLumen extends Controller
         $cacheRepository->forget(self::TIMEMACHINE_SETTINGS_CACHE_KEY);
 
         return response()->json([
-            'message' => 'Success. Settings removed.',
             'current_server_time' => Carbon::now()->toIso8601String(),
+            'message' => 'Success. Settings removed.',
         ]);
     }
 
@@ -68,7 +68,7 @@ class TimemachineControllerForLumen extends Controller
     private function validateGetTimeDiffReqeust(Request $request)
     {
         $this->validate($request, [
-            'target_time' => 'date_format:Y-m-d H:i:s',
+            'target_server_time' => 'date_format:Y-m-d H:i:s',
         ]);
     }
 
