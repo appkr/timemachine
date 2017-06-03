@@ -86,7 +86,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "add_minutes": 5
+    "add_minutes": 5,
     "ttl": 5
 }
 ```
